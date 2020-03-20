@@ -9,6 +9,10 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ('nom',)
     date_hieararchy = "date_add"
     ordering = ['nom']
+    fieldsets = [
+                  ("info tag",{"fields":["nom","description",]}),
+                  ("standard",{"fields":["status"]})
+    ]
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('titre','date_add','date_update','status','image_view')
@@ -17,9 +21,11 @@ class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = "date_add"
     list_per_page = 6
     ordering = ['titre']
+    filter_horizontal = ["tag"]
     fieldsets = [
-                    ("info article",{"fields":["titre","description","contenu","image"]})
-                    # ("standard",{"fields":["status"]})
+                    ("info article",{"fields":["titre","description","contenu","image"]}),
+                    ("foreign keys",{"fields":["categorie","tag"]}),
+                    ("standard",{"fields":["status"]})
     ]
     def image_view(self,obj):
         return mark_safe("<img src'{url}' width='100px',height='50px'>".format(url=obj.iamge.url))
@@ -32,6 +38,11 @@ class CommentaireAdmin(admin.ModelAdmin):
     list_display_links = ['nom']
     ordering = ['nom']
     list_per_page = 6
+    fieldsets = [
+                ("info commentaire",{"fields":["nom","prenom","commentaire"]}),
+                ("foreignkeys info",{"fields":["article"]}),
+                ("standard",{"fields":["status"]}) 
+     ]
 
     def image_view(self,obj):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.image.url))

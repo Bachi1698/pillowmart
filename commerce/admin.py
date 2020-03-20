@@ -9,6 +9,10 @@ class CategorieAdmin(admin.ModelAdmin):
     date_hierachy = "date_add"
     ordering = ['nom']
     list_per_page = 6
+    fieldsets = [
+                  ("info categorie",{"fields":["nom","description","image"]}),
+                  ("standard",{"fields":["status"]})
+    ]
 
     def image_view(self,obj):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.image.url))
@@ -20,6 +24,11 @@ class ProduitAdmin(admin.ModelAdmin):
     date_hierachy = "date_add"
     ordering = ['nom']
     list_per_page = 6
+    fieldsets = [
+                  ("info produit",{"fields":["nom","prix","image"]}),
+                  ("foreignkeys",{"fields":["categorie"]}),
+                  ("standard",{"fields":["status"]})
+    ]
 
     def image_view(self,obj):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.image.url))
