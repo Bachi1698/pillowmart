@@ -3,11 +3,24 @@ from . import models
 from django.utils.safestring import mark_safe
 
 # Register your models here.
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('nom','date_add','date_update','status',)
-    list_filter = ('status',)
+class CustomAdmin(admin.ModelAdmin):
+    actions = ('activate','desactivate')
+    date_hierarchy = "date_add"
+    list_per_page = 6
     search_fields = ('nom',)
-    date_hieararchy = "date_add"
+    def activate(self,request,queryset):
+        queryset.update(status=True)
+        self.message_user(request,'la selection a été effectué avec succes')
+    activate.short_description = "permet d'activer le champs selectionner"
+
+    def desactivate(self,request,queryset):  
+        queryset.update(status=False)
+        self.message_user(request,'la selection a été effectué avec succes')
+    desactivate.short_description = "permet de desactiver le champs selectionner"
+
+class TagAdmin(CustomAdmin):
+    list_display = ('nom','date_add','date_update','status',)
+    search_fields = ('nom',)
     ordering = ['nom']
     fieldsets = [
                   ("info tag",{"fields":["nom","description",]}),
@@ -17,14 +30,12 @@ class ArticleInline(admin.StackedInline):
     model = models.Article
     extra = 0
 
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(CustomAdmin):
     list_display = ('titre','date_add','date_update','status','image_view')
-    list_filter = ('status',)
-    search_fields = ('titre',)
-    date_hierarchy = "date_add"
-    list_per_page = 6
+    search_fields = ('titre',)   
     ordering = ['titre']
     filter_horizontal = ["tag"]
+    
     fieldsets = [
                     ("info article",{"fields":["titre","description","contenu","image"]}),
                     ("foreign keys",{"fields":["categorie","tag"]}),
@@ -33,14 +44,15 @@ class ArticleAdmin(admin.ModelAdmin):
     def image_view(self,obj):
         return mark_safe("<img src'{url}' width='100px',height='50px'>".format(url=obj.iamge.url))
 
-class CommentaireAdmin(admin.ModelAdmin):
+   
+
+class CommentaireAdmin(CustomAdmin):
     list_display = ('nom','prenom','date_add','date_update','image_view')
     liste_filter = ('status',)
     search_fields = ('nom',)
     date_hierachy = "date_add"
     list_display_links = ['nom']
     ordering = ['nom']
-    list_per_page = 6
     fieldsets = [
                 ("info commentaire",{"fields":["nom","prenom","commentaire"]}),
                 ("foreignkeys info",{"fields":["article"]}),
@@ -51,14 +63,10 @@ class CommentaireAdmin(admin.ModelAdmin):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.image.url))
 
 
-class CategorieArticleAdmin(admin.ModelAdmin):
+class CategorieArticleAdmin(CustomAdmin):
     list_display = ('nom','date_add','date_update','status','image_view')
-    list_filter = ('status',)
-    search_fields = ('nom',)
-    date_hierarchy = "date_add"
     list_display_links = ['nom']
     ordering = ['nom']
-    list_per_page = 6
     readonly_fields = ['image_view']
     actions = ('activate','desactivate')
     fieldsets = [
@@ -72,16 +80,6 @@ class CategorieArticleAdmin(admin.ModelAdmin):
 
     def image_view(self,obj):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.image.url))
-    
-    def activate(self,request,queryset):
-        queryset.update(status=True)
-        self.message_user(request,'la selection a été effectué avec succes')
-    activate.short_description = "permet d'activer les categories selectionner"
-
-    def desactivate(self,request,queryset):
-        queryset.update(status=False)
-        self.message_user(request,'la selection a été effectué avec succes')
-    desactivate.short_description = "permet de desactiver les categories selectionner"
 
 
 
