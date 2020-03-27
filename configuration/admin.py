@@ -2,25 +2,35 @@ from django.contrib import admin
 from . import models
 
 # Register your models here.
-class SocialCountAdmin(admin.ModelAdmin):
-    list_display = ('nom','date_add','date_update')
-    liste_filter = ('status',)
-    search_fields = ('nom',)
-    date_hierachy = "date_add"
-    ordering = ['nom']
+class CustomAddmin(admin.ModelAdmin):
+    actions = ('activate','desactivate')
+    list_filter = ('status',)
     list_per_page = 6
+    date_hierachy = "date_add"
+
+    def activate(self,request,queryset):
+        queryset.update(status=True)
+        self.message_user(request,'la selection a été effectué avec succes')
+    activate.short_description = "permet d'activer le champs selectionner"
+
+    def desactivate(self,request,queryset):  
+        queryset.update(status=False)
+        self.message_user(request,'la selection a été effectué avec succes')
+    desactivate.short_description = "permet de desactiver le champs selectionner"
+
+class SocialCountAdmin(CustomAddmin):
+    list_display = ('nom','date_add','date_update')   
+    search_fields = ('nom',)    
+    ordering = ['nom']    
     fieldsets = [
                   ("info social",{"fields":["nom","lien","icone"]}),
                   ("standard",{"fields":["status"]})
     ]
 
-class SiteInfoAdmin(admin.ModelAdmin):
+class SiteInfoAdmin(CustomAddmin):
     list_display = ('email','date_add','date_update','map_url','logo_view')
-    liste_filter = ('status',)
     search_fields = ('email',)
-    date_hierachy = "date_add"
     ordering = ['email']
-    list_per_page = 6
     fieldsets = [
                  ("info site",{"fields":["email","map_url","logo"]}),
                  ("standard",{"fields":["status"]})
@@ -29,13 +39,10 @@ class SiteInfoAdmin(admin.ModelAdmin):
     def logo_view(self,obj):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.logo.url))
 
-class PresentationAdmin(admin.ModelAdmin):
+class PresentationAdmin(CustomAddmin):
     list_display = ('nom','date_add','date_update','image_view')
-    liste_filter = ('status',)
     search_fields = ('nom',)
-    date_hierachy = "date_add"
     ordering = ['nom']
-    list_per_page = 6
     fieldsets = [
                  ("info presentation",{"fields":["nom","description","image","video"]}),
                  ("standard",{"fields":["status"]})
@@ -44,13 +51,10 @@ class PresentationAdmin(admin.ModelAdmin):
     def image_view(self,obj):
         return mark_safe("<img src='{url}' width='100px',height='50px'>".format(url=obj.image.url))
 
-class TemoignageAdmin(admin.ModelAdmin):
+class TemoignageAdmin(CustomAddmin):
     list_display = ('nom','prenom','date_add','date_update','image_view')
-    liste_filter = ('status',)
     search_fields = ('nom',)
-    date_hierachy = "date_add"
     ordering = ['nom']
-    list_per_page = 6
     fieldsets = [
                 ("info temoignage",{"fields":["nom","prenom","message","photo"]}),
                 ("standard",{"fields":["status"]})
