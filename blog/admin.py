@@ -42,15 +42,13 @@ class ArticleAdmin(CustomAdmin):
                     ("standard",{"fields":["status"]})
     ]
     def image_view(self,obj):
-        return mark_safe("<img src'{url}' width='100px',height='50px'>".format(url=obj.iamge.url))
+        return mark_safe("<img src'{url}' width='100px',height='50px'>".format(url=obj.image.url))
 
    
 
 class CommentaireAdmin(CustomAdmin):
     list_display = ('nom','prenom','date_add','date_update','image_view')
-    liste_filter = ('status',)
     search_fields = ('nom',)
-    date_hierachy = "date_add"
     list_display_links = ['nom']
     ordering = ['nom']
     fieldsets = [
