@@ -42,7 +42,7 @@ class ArticleAdmin(CustomAdmin):
                     ("standard",{"fields":["status"]})
     ]
     def image_view(self,obj):
-        return mark_safe("<img src'{url}' width='100px',height='50px'>".format(url=obj.image.url))
+        return mark_safe("<img src ='{url}' width='100px',height='50px'>".format(url=obj.image.url))
 
    
 

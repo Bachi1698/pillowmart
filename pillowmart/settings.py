@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'commerce.apps.CommerceConfig',
     'configuration.apps.ConfigurationConfig',
     'contact.apps.ContactConfig',
+    'user.apps.UserConfig',
+    'widget_tweaks',
+    'filebrowser',
+
 ]
 
 MIDDLEWARE = [
@@ -129,3 +133,37 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 900,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'modern',
+    'plugins': '''
+            textcolor save link image media preview codesample contextmenu
+            table code lists fullscreen  insertdatetime  nonbreaking
+            contextmenu directionality searchreplace wordcount visualblocks
+            visualchars code fullscreen autolink lists  charmap print  hr
+            anchor pagebreak
+            ''',
+    'toolbar1': '''
+            fullscreen preview bold italic underline | fontselect,
+            fontsizeselect  | forecolor backcolor | alignleft alignright |
+            aligncenter alignjustify | indent outdent | bullist numlist table |
+            | link image media | codesample |
+            ''',
+    'toolbar2': '''
+            visualblocks visualchars |
+            charmap hr pagebreak nonbreaking anchor |  code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+}
+
+FILEBROWSER_DIRECTORY = ''
+FILEBROWSER_MAX_UPLOAD_SIZE = 10485760 * 100
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'

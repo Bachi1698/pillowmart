@@ -1,21 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-def index(request):
-    datas = {
 
-    }
-    return render(request,'pages/index.html',datas)
-def about(request):
-    datas = {
-
-    }
-    return render(request,'pages/about.html',datas)
-def blog(request):
-    datas = {
-
-    }
-    return render(request,'pages/blog.html',datas)
 def cart(request):
     datas = {
 
@@ -46,19 +32,5 @@ def login(request):
 
     }
     return render(request,'pages/login.html',datas)
-def product_list(request):
-    datas = {
 
-    }
-    return render(request,'pages/product_list.html',datas)
-def single_blog(request):
-    datas = {
-
-    }
-    return render(request,'pages/single-blog.html',datas)
-def single_product(request):
-    datas = {
-
-    }
-    return render(request,'pages/single-product.html',datas)
 

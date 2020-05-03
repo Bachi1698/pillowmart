@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class CategorieArticle(models.Model):
     nom = models.CharField(max_length=255)
-    image = models.ImageField('images/Categorie')
+    image = models.ImageField(upload_to='images/Categorie')
     description = models.TextField(max_length=255)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
@@ -35,7 +35,7 @@ class Article(models.Model):
     titre = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     contenu = models.TextField(max_length=255)
-    image = models.ImageField('images/Article')
+    image = models.ImageField(upload_to='images/Article')
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=True)
