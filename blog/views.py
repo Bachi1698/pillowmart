@@ -16,27 +16,37 @@ def index(request):
     return render(request,'pages/index.html',datas)
 def about(request):
     presentation = configuration_models.Presentation.objects.filter(status=True)
+    site_info = configuration_models.SiteInfo.objects.filter(status=True)[:1].get()
     datas = {
                 'presentation': presentation,
+                'site_info':site_info,
     }
     return render(request,'pages/about.html',datas)
 def blog(request):
+    site_info = configuration_models.SiteInfo.objects.filter(status=True)[:1].get()
     datas = {
+        'site_info':site_info,
 
     }
     return render(request,'pages/blog.html',datas)
 def product_list(request):
+    site_info = configuration_models.SiteInfo.objects.filter(status=True)[:1].get()
     datas = {
+        'site_info':site_info,
 
     }
     return render(request,'pages/product_list.html',datas)
 def single_blog(request):
+    site_info = configuration_models.SiteInfo.objects.filter(status=True)[:1].get()
     datas = {
+        'site_info':site_info,
 
     }
     return render(request,'pages/single-blog.html',datas)
 def single_product(request):
+    site_info = configuration_models.SiteInfo.objects.filter(status=True)[:1].get()
     datas = {
+        'site_info':site_info,
 
     }
     return render(request,'pages/single-product.html',datas)

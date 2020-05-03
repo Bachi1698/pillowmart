@@ -5,6 +5,7 @@ from configuration import models as configuration_models
 
 
 def inscription(request):
+    site_info = configuration_models.SiteInfo.objects.filter(status=True)[:1].get()
     form=""
     if request.method == "POST":
         form = forms.RegistrationForm(request.POST)
@@ -16,6 +17,7 @@ def inscription(request):
     
     datas = {
         'form':form,
+        'site_info':site_info,
         
     }
     return render(request, "registration/inscription.html", datas)
