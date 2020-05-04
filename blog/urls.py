@@ -7,6 +7,6 @@ urlpatterns = [
      path('blog', views.blog, name='blog'),
       path('product_list', views.product_list, name='product_list'),
      path('single_blog', views.single_blog, name='single-blog'),
-     path('single_product', views.single_product, name='single-product'),
+     path('single_product/<int:pk>', views.single_product, name='single-product'),
     
 ]
