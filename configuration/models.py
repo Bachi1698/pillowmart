@@ -42,7 +42,7 @@ class SiteInfo(models.Model):
 class Presentation(models.Model):
     nom = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    image = models.ImageField('images/Presentation')
+    image = models.ImageField(upload_to='images/Presentation')
     video = models.URLField()
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
