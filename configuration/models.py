@@ -56,7 +56,7 @@ class Presentation(models.Model):
         return self.nom
     
 class Temoignage(models.Model):
-    photo = models.ImageField('images/Temoignage')
+    photo = models.ImageField(upload_to='images/Temoignage')
     nom = models.CharField(max_length=255)
     prenom = models.CharField(max_length=255)
     message = models.TextField(max_length=255)
